@@ -8,22 +8,21 @@ namespace Thumbor\Url;
  */
 class CommandSet
 {
-    private
-        $trim,
-        $crop,
-        $resize,
-        $halign,
-        $valign,
-        $smartCrop = false,
-        $filters = array(),
-        $metadataOnly = false;
+    private $trim;
+    private $crop;
+    private $resize;
+    private $halign;
+    private $valign;
+    private $smartCrop = false;
+    private $filters = array();
+    private $metadataOnly = false;
 
     /**
      * Trim surrounding space from the thumbnail. The top-left corner of the
      * image is assumed to contain the background colour. To specify otherwise,
      * pass either 'top-left' or 'bottom-right' as the $colourSource argument.
      */
-    public function trim($colourSource=null)
+    public function trim($colourSource = null)
     {
         $this->trim = 'trim' . ($colourSource ? ":$colourSource" : '');
     }
@@ -94,7 +93,7 @@ class CommandSet
     {
         $args = func_get_args();
         $filter = array_shift($args);
-        $this->filters []= sprintf('%s(%s)', $filter, implode(', ', $args));
+        $this->filters []= sprintf('%s(%s)', $filter, implode(',', $args));
     }
 
     /**
@@ -118,23 +117,24 @@ class CommandSet
             if ($command) $commands []= (string) $command;
         };
 
+        if ($this->metadataOnly) {
+            $commands []= 'meta';
+        }
+
         $maybeAppend($this->trim);
         $maybeAppend($this->crop);
         $maybeAppend($this->resize);
         $maybeAppend($this->halign);
         $maybeAppend($this->valign);
 
-        if ($this->smartCrop)
+        if ($this->smartCrop) {
             $commands []= 'smart';
+        }
 
-        if (count($this->filters))
-        {
+        if (count($this->filters)) {
             $filters = 'filters:' . implode(':', $this->filters);
             $commands []= $filters;
         }
-
-        if ($this->metadataOnly)
-            $commands []= 'metadata';
 
         return $commands;
     }

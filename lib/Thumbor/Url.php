@@ -8,7 +8,10 @@ namespace Thumbor;
  */
 class Url
 {
-    private $server, $secret, $original, $commands;
+    private $server;
+    private $secret;
+    private $original;
+    private $commands;
 
     /**
      * See stringify()
@@ -34,7 +37,7 @@ class Url
      */
     public function stringify($server, $secret, $original, $commands)
     {
-        #$original = urlencode($original);
+        #$original = rawurlencode($original);
         $commandPath = implode('/', $commands);
         $signature = $secret ? self::sign("$commandPath/$original", $secret) : 'unsafe';
 

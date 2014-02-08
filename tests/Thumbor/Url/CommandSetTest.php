@@ -2,7 +2,9 @@
 
 namespace Thumbor\Url;
 
-class CommandSetTest extends \PHPUnit_Framework_TestCase
+use PHPUnit_Framework_TestCase as TestCase;
+
+class CommandSetTest extends TestCase
 {
     public function testDefaults()
     {
@@ -95,7 +97,7 @@ class CommandSetTest extends \PHPUnit_Framework_TestCase
         $commandSet->addFilter('bar', 'baz');
         $commandSet->addFilter('bla', 'quux', 42);
         $this->assertEquals(
-            array('filters:foo():bar(baz):bla(quux, 42)'),
+            array('filters:foo():bar(baz):bla(quux,42)'),
             $commandSet->toArray()
         );
     }
@@ -105,7 +107,7 @@ class CommandSetTest extends \PHPUnit_Framework_TestCase
         $commandSet = new CommandSet();
         $commandSet->metadataOnly(true);
         $this->assertEquals(
-            array('metadata'),
+            array('meta'),
             $commandSet->toArray()
         );
     }
